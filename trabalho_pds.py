@@ -85,14 +85,6 @@ if __name__ == "__main__":
 
             plt.plot(t, imfs[i], 'b', linewidth=1)
 
-            if tempo_insercao is not None:
-                plt.axvline(
-                    tempo_insercao,
-                    color='r',
-                    linestyle='--',
-                    label='Inserção Detectada'
-                )
-
             plt.title(f'IMF {i+1}')
             plt.xlabel('Tempo (s)')
             plt.ylabel('Amplitude')
@@ -107,7 +99,7 @@ if __name__ == "__main__":
 
         if tempo_insercao is not None:
             print(f"Cargas não lineares inseridas na amostra {idx_insercao}.")
-            print(f"Instante de tempo estimado: {tempo_insercao:.4f} segundos.")
+            print(f"Instante de tempo estimado: {tempo_insercao * 1000:.4f} milissegundos.")
         else:
             print("Não foi possível detectar a inserção de cargas.")
 
@@ -128,7 +120,7 @@ if __name__ == "__main__":
         plt.plot(t, amplitudes[0], 'g', label="Amplitude Instantânea (IMF 1)")
         if tempo_insercao:
             plt.axvline(x=tempo_insercao, color='r', linestyle='--')
-        plt.title("Envelope das Harmônicas (IMF 1)")
+        plt.title("Amplitude instantânea (IMF 1)")
         plt.xlabel("Tempo (s)")
         plt.legend()
         
@@ -190,7 +182,25 @@ if __name__ == "__main__":
 
         plt.ylim(0,500)
         plt.grid(True)
+        # ---------------------------------------------------------
+        # PLOTAGEM DO SINAL ORIGINAL (SEM MARCAÇÃO)
+        # ---------------------------------------------------------
 
+        plt.figure(figsize=(10,4))
+
+        plt.plot(
+            t,
+            sinal_medido,
+            color='b',
+            linewidth=1
+        )
+
+        plt.title('Sinal Original')
+        plt.xlabel('Tempo (s)')
+        plt.ylabel('Amplitude')
+        plt.grid(True)
+
+        plt.tight_layout()
         plt.show()
     except Exception as e:
         print(e)
