@@ -72,30 +72,7 @@ if __name__ == "__main__":
 
         
         imfs, amplitudes, frequencias, t = calcular_hht(sinal_medido, fs)
-        # ==========================================
-        # Identificação das IMFs úteis
-        # ==========================================
-
-        imfs_validas = []
-
-        for i in range(len(imfs)):
-
-            freq_med = np.median(
-                frequencias[i][
-                    (frequencias[i] > 0) &
-                    (frequencias[i] < 500)
-                ]
-            )
-
-            print(f"IMF {i+1}: {freq_med:.1f} Hz")
-
-            # mantém apenas IMFs próximas das componentes físicas
-            if 40 < freq_med < 350:
-                imfs_validas.append(i)
-
-        print("IMFs utilizadas:", imfs_validas)
         idx_insercao, tempo_insercao = detectar_insercao_cargas(imfs, amplitudes, t)
-        
         # ---------------------------------------------------------
         # PLOTAGEM DAS IMFs (uma janela para cada IMF)
         # ---------------------------------------------------------
@@ -116,17 +93,17 @@ if __name__ == "__main__":
                     label='Inserção Detectada'
                 )
 
-        plt.title(f'IMF {i+1}')
-        plt.xlabel('Tempo (s)')
-        plt.ylabel('Amplitude')
-        plt.grid(True)
-        plt.legend()
+            plt.title(f'IMF {i+1}')
+            plt.xlabel('Tempo (s)')
+            plt.ylabel('Amplitude')
+            plt.grid(True)
+            plt.legend()
 
-        plt.tight_layout()
-        plt.xlabel('Tempo (s)')
-        plt.suptitle('Funções Modais Intrínsecas (IMFs)')
+            plt.tight_layout()
+            plt.xlabel('Tempo (s)')
+            plt.suptitle('Funções Modais Intrínsecas (IMFs)')
 
-        plt.tight_layout()
+            plt.tight_layout()
 
         if tempo_insercao is not None:
             print(f"Cargas não lineares inseridas na amostra {idx_insercao}.")
